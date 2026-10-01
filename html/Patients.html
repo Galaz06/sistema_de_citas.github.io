@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/dashboard-extra.css">
+    <script src="../js/auth.js"></script>
+    <script>Auth.requireSession();</script>
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('asys_theme') || 'light');</script>
+    <title>System Appointments - Patients</title>
+</head>
+<body data-page="patients">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="header-sidebar">
+                <div class="header-logo">
+                    <h3>AS</h3>
+                </div>
+                <div class="header-text">
+                    <h4>Appointments</h4>
+                    <h4>System</h4>
+                </div>
+            </div>
+
+            <div class="menu-bar">
+                <div class="menu">
+                    <ul class="menu-links">
+                        <li class="nav-link"><a href="../index.html" data-page-link="home">
+                            <i class="bi bi-house"></i>
+                            <span>Home</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="Appointments.html" data-page-link="appointments">
+                            <i class="bi bi-calendar"></i>
+                            <span>Appointments</span>
+                        </a></li>
+                        <li class="nav-link"><a href="Patients.html" data-page-link="patients">
+                            <i class="bi bi-people"></i>
+                            <span>Patients</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="Schedule.html" data-page-link="schedule">
+                            <i class="bi bi-clock"></i>
+                            <span>Schedules</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="" data-page-link="settings">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-link logout">
+                <a href="login.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div class="header-main">
+                <div class="sidebar-toggle" style="font-size: 1.6rem; color: var(--icon-color);">
+                    <div class="circle btn-sidebar">
+                        <i class="bi bi-arrow-left"></i>
+                        <i class="bi bi-list"></i>
+                    </div>
+                </div>
+                <div class="user-container">
+                    <div class="circle" id="notifBell"><i class="bi bi-bell"></i><div class="notifications" id="notifBadge" style="display:none;"><span>0</span></div></div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-photo" id="userPhoto"><span><b>MG</b></span>
+                        </div>
+                        <div class="user-name">
+                            <p id="userNameLabel">Matias Galaz</p>
+                            <span id="userRoleLabel">cardiologo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="body-main">
+                <div class="page-toolbar">
+                    <div class="body-main-title">
+                        <h1>Patients</h1>
+                        <p>Everyone who has ever booked an appointment shows up here</p>
+                    </div>
+                    <div class="page-toolbar-actions">
+                        <button class="btn btn-primary" id="newPatientBtn" type="button">
+                            <i class="bi bi-person-plus"></i>
+                            <span>Add patient</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div>
+                            <h3 class="chart-title">Patient directory</h3>
+                            <span class="chart-subtitle" id="patientsCountLabel">All patients</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Date of birth</th>
+                                    <th>Gender</th>
+                                    <th>Appointments</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientsTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="patientsEmptyState" style="display:none;">
+                        <i class="bi bi-people"></i>
+                        <p>No patients yet. Add one, or create an appointment.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú" type="button">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+            <nav class="mobile-nav-panel">
+                <div class="mobile-nav-header">
+                    <div class="mobile-nav-brand">
+                        <div class="header-logo">
+                            <h3>AS</h3>
+                        </div>
+                        <div class="header-text">
+                            <h4>Appointments</h4>
+                            <h4>System</h4>
+                        </div>
+                    </div>
+                    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+
+                <ul class="mobile-nav-links">
+                    <li><a href="../index.html" data-page-link="home"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="Appointments.html" data-page-link="appointments"><i class="bi bi-calendar"></i><span>Appointments</span></a></li>
+                    <li><a href="Patients.html" data-page-link="patients"><i class="bi bi-people"></i><span>Patients</span></a></li>
+                    <li><a href="Schedule.html" data-page-link="schedule"><i class="bi bi-clock"></i><span>Schedules</span></a></li>
+                    <li><a href="" data-page-link="settings"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+                </ul>
+
+                <div class="mobile-nav-logout">
+                    <a href="login.html"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Modal: Add patient -->
+    <div class="modal-overlay" id="patientModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h3>Add patient</h3>
+                    <p>Fill in the patient's information</p>
+                </div>
+                <button class="modal-close" id="closePatientModal" type="button" aria-label="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <form id="patientForm" novalidate>
+                <div class="form-grid">
+                    <div class="form-group" id="group-name">
+                        <label for="fullName">Full name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="e.g. Jane Doe" required>
+                        <span class="form-error">Please enter the patient's full name.</span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone <span class="hint">(optional)</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="+1 555 123 4567">
+                        </div>
+                        <div class="form-group" id="group-email">
+                            <label for="email">Email <span class="hint">(optional)</span></label>
+                            <input type="email" id="email" name="email" placeholder="jane@mail.com">
+                            <span class="form-error">Please enter a valid email.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group" id="group-dob">
+                            <label for="dob">Date of birth <span class="hint">(MM/DD/YYYY, optional)</span></label>
+                            <input type="text" id="dob" name="dob" placeholder="MM/DD/YYYY" inputmode="numeric" maxlength="10">
+                            <span class="form-error">Use the MM/DD/YYYY format, e.g. 04/12/1990.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender <span class="hint">(optional)</span></label>
+                            <select id="gender" name="gender">
+                                <option value="" selected>Prefer not to say</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patientNotes">Notes <span class="hint">(optional)</span></label>
+                        <textarea id="patientNotes" name="patientNotes" placeholder="Allergies, medical history, etc."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelPatientBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2"></i>
+                        <span>Save patient</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/home.js"></script>
+    <script src="../js/patients.js"></script>
+</body>
+</html>

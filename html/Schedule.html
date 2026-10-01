@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/dashboard-extra.css">
+    <script src="../js/auth.js"></script>
+    <script>Auth.requireSession();</script>
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('asys_theme') || 'light');</script>
+    <title>System Appointments - Schedule</title>
+</head>
+<body data-page="schedule">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="header-sidebar">
+                <div class="header-logo">
+                    <h3>AS</h3>
+                </div>
+                <div class="header-text">
+                    <h4>Appointments</h4>
+                    <h4>System</h4>
+                </div>
+            </div>
+
+            <div class="menu-bar">
+                <div class="menu">
+                    <ul class="menu-links">
+                        <li class="nav-link"><a href="../index.html" data-page-link="home">
+                            <i class="bi bi-house"></i>
+                            <span>Home</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="Appointments.html" data-page-link="appointments">
+                            <i class="bi bi-calendar"></i>
+                            <span>Appointments</span>
+                        </a></li>
+                        <li class="nav-link"><a href="Patients.html" data-page-link="patients">
+                            <i class="bi bi-people"></i>
+                            <span>Patients</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="Schedule.html" data-page-link="schedule">
+                            <i class="bi bi-clock"></i>
+                            <span>Schedules</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="" data-page-link="settings">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-link logout">
+                <a href="login.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div class="header-main">
+                <div class="sidebar-toggle" style="font-size: 1.6rem; color: var(--icon-color);">
+                    <div class="circle btn-sidebar">
+                        <i class="bi bi-arrow-left"></i>
+                        <i class="bi bi-list"></i>
+                    </div>
+                </div>
+                <div class="user-container">
+                    <div class="circle" id="notifBell"><i class="bi bi-bell"></i><div class="notifications" id="notifBadge" style="display:none;"><span>0</span></div></div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-photo" id="userPhoto"><span><b>MG</b></span>
+                        </div>
+                        <div class="user-name">
+                            <p id="userNameLabel">Matias Galaz</p>
+                            <span id="userRoleLabel">cardiologo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="body-main">
+                <div class="page-toolbar">
+                    <div class="body-main-title">
+                        <h1>Schedule</h1>
+                        <p>See how busy each day is, at a glance</p>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="calendar-header">
+                        <h3 class="chart-title" id="calendarMonthLabel">Month Year</h3>
+                        <div class="calendar-nav">
+                            <button class="btn btn-icon" id="prevMonthBtn" type="button" aria-label="Previous month">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-secondary" id="todayBtn" type="button">Today</button>
+                            <button class="btn btn-icon" id="nextMonthBtn" type="button" aria-label="Next month">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-grid" id="calendarWeekdays">
+                        <div class="calendar-weekday">Sun</div>
+                        <div class="calendar-weekday">Mon</div>
+                        <div class="calendar-weekday">Tue</div>
+                        <div class="calendar-weekday">Wed</div>
+                        <div class="calendar-weekday">Thu</div>
+                        <div class="calendar-weekday">Fri</div>
+                        <div class="calendar-weekday">Sat</div>
+                    </div>
+                    <div class="calendar-grid" id="calendarDays"></div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="day-detail-header">
+                        <div>
+                            <h3 class="chart-title" id="dayDetailTitle">Select a day</h3>
+                            <span class="chart-subtitle" id="dayDetailSubtitle">Click any day on the calendar to see its appointments</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="data-table" id="dayDetailTable" style="display:none;">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Patient</th>
+                                    <th>Appointment type</th>
+                                    <th>Notes</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dayDetailTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="empty-state" id="dayDetailEmptyState">
+                        <i class="bi bi-calendar3"></i>
+                        <p>No day selected yet.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú" type="button">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+            <nav class="mobile-nav-panel">
+                <div class="mobile-nav-header">
+                    <div class="mobile-nav-brand">
+                        <div class="header-logo">
+                            <h3>AS</h3>
+                        </div>
+                        <div class="header-text">
+                            <h4>Appointments</h4>
+                            <h4>System</h4>
+                        </div>
+                    </div>
+                    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+
+                <ul class="mobile-nav-links">
+                    <li><a href="../index.html" data-page-link="home"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="Appointments.html" data-page-link="appointments"><i class="bi bi-calendar"></i><span>Appointments</span></a></li>
+                    <li><a href="Patients.html" data-page-link="patients"><i class="bi bi-people"></i><span>Patients</span></a></li>
+                    <li><a href="Schedule.html" data-page-link="schedule"><i class="bi bi-clock"></i><span>Schedules</span></a></li>
+                    <li><a href="" data-page-link="settings"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+                </ul>
+
+                <div class="mobile-nav-logout">
+                    <a href="login.html"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/home.js"></script>
+    <script src="../js/schedule.js"></script>
+</body>
+</html>

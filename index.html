@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css\home.css">
+    <link rel="stylesheet" href="css/dashboard-extra.css">
+    <script src="js/auth.js"></script>
+    <script>Auth.requireSession();</script>
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('asys_theme') || 'light');</script>
+    <title>System Appointments - Home</title>
+</head>
+<body data-page="home">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="header-sidebar">
+                <div class="header-logo">
+                    <h3>AS</h3>
+                </div>
+                <div class="header-text">
+                    <h4>Appointments</h4>
+                    <h4>System</h4>
+                </div>
+            </div>
+
+            <div class="menu-bar">
+                <div class="menu">
+                    <ul class="menu-links">
+                        <li class="nav-link" id="first"><a href="index.html" data-page-link="home">
+                            <i class="bi bi-house"></i>
+                            <span>Home</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="html/Appointments.html" data-page-link="appointments">
+                            <i class="bi bi-calendar"></i>
+                            <span>Appointments</span>
+                        </a></li>
+                        <li class="nav-link"><a href="html/Patients.html" data-page-link="patients">
+                            <i class="bi bi-people"></i>
+                            <span>Patients</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="html/Schedule.html" data-page-link="schedule">
+                            <i class="bi bi-clock"></i>
+                            <span>Schedules</span>
+                        </a></li>
+
+                        <li class="nav-link"><a href="" data-page-link="settings">
+                            <i class="bi bi-gear"></i>
+                            <span>Settings</span>
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="nav-link logout">
+                <a href="html/login.html">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div class="header-main">
+                <div class="sidebar-toggle" style="font-size: 1.6rem; color: var(--icon-color);">
+                    <div class="circle btn-sidebar">
+                        <i class="bi bi-arrow-left"></i>
+                        <i class="bi bi-list"></i>
+                    </div>
+                </div>
+                <div class="user-container">
+                    <div class="circle" id="notifBell"><i class="bi bi-bell"></i><div class="notifications" id="notifBadge" style="display:none;"><span>0</span></div></div>
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-photo" id="userPhoto"><span><b>MG</b></span>
+                        </div>
+                        <div class="user-name">
+                            <p id="userNameLabel">Matias Galaz</p>
+                            <span id="userRoleLabel">cardiologo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="body-main">
+                <div class="body-main-title">
+                    <h1 >Welcome</h1>
+                    <p >Here are your activities and appointments scheduled for today</p>
+                </div>
+
+                <!-- Summary cards -->
+                <div class="sumary-day">
+                    <div class="sumary-card">
+                        <div class="card-icon total">
+                            <i class="bi bi-calendar-week"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Today's appointments</h3>
+                            <p class="card-value"><b id="cardToday">0</b></p>
+                            <div class="card-statistics trend-neutral" id="cardTodayTrend"><p>No data yet</p></div>
+                        </div>
+                    </div>
+                    <div class="sumary-card">
+                        <div class="card-icon completed">
+                            <i class="bi bi-check2"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Completed appointments</h3>
+                            <p class="card-value"><b id="cardCompleted">0</b></p>
+                            <div class="card-statistics trend-neutral">
+                                <p id="cardCompletedPct">No data yet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sumary-card">
+                        <div class="card-icon pending">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Pending appointments</h3>
+                            <p class="card-value"><b id="cardPending">0</b></p>
+                            <div class="card-statistics trend-neutral">
+                                <p id="cardPendingPct">No data yet</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sumary-card">
+                        <div class="card-icon cancelled">
+                            <i class="bi bi-x-lg"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">Cancelled appointments</h3>
+                            <p class="card-value"><b id="cardCancelled">0</b></p>
+                            <div class="card-statistics trend-neutral">
+                                <p id="cardCancelledPct">No data yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts + upcoming appointments + distribution -->
+                <div class="stadistics">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Weekly statistics</h3>
+                                <span class="chart-subtitle">Activity overview</span>
+                            </div>
+                            <button class="chart-range" type="button">
+                                <i class="bi bi-calendar3"></i>
+                                <span>This week</span>
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+                        </div>
+
+                        <div class="chart-wrapper">
+                            <div class="chart-y-axis" id="chartYAxis"><span>20</span><span>15</span><span>10</span><span>5</span><span>0</span></div>
+
+                            <div class="chart-body">
+                                <div class="chart-grid">
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                    <div class="grid-line"></div>
+                                </div>
+
+                                <div class="chart-bars" id="chartBars"><div class="bar-col" data-day="0" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Mon</span></div><div class="bar-col" data-day="1" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Tue</span></div><div class="bar-col" data-day="2" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Wed</span></div><div class="bar-col" data-day="3" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Thu</span></div><div class="bar-col" data-day="4" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Fri</span></div><div class="bar-col" data-day="5" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Sat</span></div><div class="bar-col" data-day="6" style="--val: 0%;"><span class="bar-val">0</span><div class="bar-track"><div class="bar-fill"></div></div><span class="bar-day">Sun</span></div></div></div></div></div>
+
+                    <div class="appointments-card">
+                        <div class="panel-header">
+                            <h3 class="chart-title">Upcoming appointments</h3>
+                            <span class="chart-subtitle">Rest of today</span>
+                        </div>
+
+                        <ul class="appointment-list" id="homeUpcomingList">
+                            <!-- Se completa dinámicamente desde js/home-data.js -->
+                        </ul>
+
+                        <a href="html/Schedule.html" class="view-all-link">View full schedule <i class="bi bi-arrow-right"></i></a>
+                    </div>
+
+                    <div class="distribution-card">
+                        <div class="panel-header">
+                            <h3 class="chart-title">Appointment types</h3>
+                            <span class="chart-subtitle">This week</span>
+                        </div>
+
+                        <div class="donut-wrapper">
+                            <div class="donut-chart" id="donutChart"></div>
+                            <div class="donut-hole">
+                                <span class="value" id="donutTotal">0</span>
+                                <span class="label">Total</span>
+                            </div>
+                        </div>
+
+                        <ul class="distribution-legend">
+                            <li class="legend-item">
+                                <span class="legend-dot" style="background: var(--sidebar-color);"></span>
+                                <span class="legend-label">Checkups & follow-ups</span>
+                                <span class="legend-value" id="legCheckups">0 (0%)</span>
+                            </li>
+                            <li class="legend-item">
+                                <span class="legend-dot" style="background: #22c55e;"></span>
+                                <span class="legend-label">New consultations</span>
+                                <span class="legend-value" id="legNew">0 (0%)</span>
+                            </li>
+                            <li class="legend-item">
+                                <span class="legend-dot" style="background: #f5a524;"></span>
+                                <span class="legend-label">Studies</span>
+                                <span class="legend-value" id="legStudies">0 (0%)</span>
+                            </li>
+                            <li class="legend-item">
+                                <span class="legend-dot" style="background: var(--primary-color);"></span>
+                                <span class="legend-label">Other</span>
+                                <span class="legend-value" id="legOther">0 (0%)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Completed appointments -->
+                <div class="completed-card">
+                    <div class="panel-header">
+                        <div>
+                            <h3 class="chart-title">Completed appointments</h3>
+                            <span class="chart-subtitle">Most recent first</span>
+                        </div>
+                        <a href="html/Appointments.html" class="view-all-link">View all <i class="bi bi-arrow-right"></i></a>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="completed-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Patient</th>
+                                    <th>Appointment type</th>
+                                    <th>Notes</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="homeCompletedBody">
+                                <!-- Se completa dinámicamente desde js/home-data.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Botón flotante exclusivo para mobile: abre el off-canvas nav.
+             Independiente de .btn-sidebar (ese es solo para colapsar el sidebar en desktop). -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú" type="button">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Off-canvas mobile nav (<=768px). Se abre desde el botón flotante de arriba. -->
+        <div class="mobile-nav-overlay" id="mobileNavOverlay">
+            <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+            <nav class="mobile-nav-panel">
+                <div class="mobile-nav-header">
+                    <div class="mobile-nav-brand">
+                        <div class="header-logo">
+                            <h3>AS</h3>
+                        </div>
+                        <div class="header-text">
+                            <h4>Appointments</h4>
+                            <h4>System</h4>
+                        </div>
+                    </div>
+                    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" type="button">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+
+                <ul class="mobile-nav-links">
+                    <li><a href="index.html" data-page-link="home"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="html/Appointments.html" data-page-link="appointments"><i class="bi bi-calendar"></i><span>Appointments</span></a></li>
+                    <li><a href="html/Patients.html" data-page-link="patients"><i class="bi bi-people"></i><span>Patients</span></a></li>
+                    <li><a href="html/Schedule.html" data-page-link="schedule"><i class="bi bi-clock"></i><span>Schedules</span></a></li>
+                    <li><a href="" data-page-link="settings"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+                </ul>
+
+                <div class="mobile-nav-logout">
+                    <a href="html/login.html"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+    <script src="js/data.js"></script>
+    <script src="js/home-data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js\home.js"></script>
+</body>
+</html>

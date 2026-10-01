@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --body-color: #E4E9F7;
+    --sidebar-color: #3b4f8a;
+    --primary-color: #695CFE;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #fff;
+    --accent-blue: #00D4FF;
+    --accent-red: #ff6565;
+    --header-bg: #ffffff;
+    --header-border: #E9ECF5;
+    --header-shadow: 0 2px 10px rgba(59, 79, 138, 0.06);
+    --icon-bg: #F1F3FB;
+    --icon-bg-hover: var(--sidebar-color);
+    --icon-color: #5b6485;
+    --text-muted: #8a90a8;
+    --text-dark: #2b2f42;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.4s ease;
+    --tran-05: all 0.5s ease;
+}
+
+html { 
+    font-size: 62.5%; 
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--body-color);
+}
+
+.banner {
+    position: relative;
+    width: 88rem;
+    height: 56rem;
+    border-radius: 3rem;
+    background-color: var(--sidebar-color);
+    background-size: cover;
+    background-position: center;
+    animation: deslizarEntrada 1s ease-out forwards;
+    overflow: hidden;
+}
+
+/* Blobs decorativos en el banner */
+.banner::before,
+.banner::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.25;
+}
+.banner.collapsed::before,
+.banner.collapsed::after {
+    left: 0;
+}
+
+.banner::before {
+    width: 35rem;
+    height: 35rem;
+    background: var(--accent-blue);
+    top: -10rem;
+    right: -5rem;
+}
+
+.banner::after {
+    width: 25rem;
+    height: 25rem;
+    background: var(--primary-color);
+    bottom: -8rem;
+    right: 10rem;
+}
+
+/* ... [Tu CSS anterior hasta antes de .login] ... */
+
+.login {
+    height: 100%;
+    width: 46%;
+    /* Quitamos el padding de aquí y lo ponemos en los paneles */
+    border-top-left-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    border-top-right-radius: 8rem;
+    border-bottom-right-radius: 8rem;
+    background-color: #fff;
+    z-index: 10;
+    transition: var(--tran-04);
+    
+    /* NUEVO: Necesario para el efecto carrusel */
+    overflow: hidden; 
+    position: relative;
+}
+
+.login.collapsed {
+    position: absolute;
+    transform: translateX(50rem);
+    border-radius: 0;
+    border-top-left-radius: 8rem;
+    border-bottom-left-radius: 8rem;
+}
+
+/* NUEVO: Contenedor que se desliza */
+.login-slider {
+    display: flex;
+    width: 300%; /* 3 paneles de 100% cada uno */
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Clases que activan el deslizamiento por pasos */
+.login-slider.step-1 { transform: translateX(0); }             /* Panel 1: Login */
+.login-slider.step-2 { transform: translateX(-33.3333%); }     /* Panel 2: Forgot */
+.login-slider.step-3 { transform: translateX(-66.6666%); }     /* Panel 3: Reset */
+
+/* Todos los paneles ocupan 1/3 del ancho total del slider */
+.login-pane, .forgot-pane, .reset-pane {
+    width: 33.3333%; 
+    height: 100%;
+    padding: 3.5rem; 
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+/* ... [A partir de aquí mantén tu CSS desde .login-title] ... */
+.login-title {
+    transition: var(--tran-04);
+}
+.login-title.collapsed {
+    text-align: end;
+}
+/* ... resto del código sin cambios ... */
+.login-title h1 { 
+    font-size: 2.8rem; 
+}
+
+.login-title p { 
+    font-size: 1.2rem; 
+    color: #64748b; 
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.login-field {
+    position: relative;
+    width: 100%;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 13px 50px 13px 20px;
+    border: 0;
+    outline: 0;
+    border-radius: 8px;
+    background-color: #eee;
+    color: #333;
+}
+
+.login-field input::placeholder { 
+    color: #888; 
+}
+
+.login-field i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #333;
+}
+
+.extra {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.remember {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.login-form a {
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #333;
+    transition: var(--tran-04);
+}
+
+.login-form a:hover { 
+    opacity: 0.7; 
+}
+
+.login-form button {
+    width: 100%;
+    height: 4.6rem;
+    border: 0;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    color: #fff;
+    background-color: var(--sidebar-color);
+    cursor: pointer;
+    transition: var(--tran-04);
+}
+
+.login-form button:hover { 
+    opacity: 0.8; 
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+.line {
+    background-color: #eee;
+    height: 2px;
+    flex: 1;
+}
+
+.login-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.google-button, .microsoft-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    width: 100%;
+    height: 4.6rem;
+    cursor: pointer;
+    transition: var(--tran-04);
+}
+
+.google-button p, .microsoft-button p { 
+    font-size: 1.3rem; 
+}
+
+.google-button:hover, .microsoft-button:hover {
+    background-color: var(--primary-color-light);
+}
+
+/* ── BANNER CONTENT (derecha) ── */
+.banner-content {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36rem;
+    right: 5rem;
+    color: #fff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    text-align: center;
+    z-index: 0;
+    transition: var(--tran-04);
+}
+.banner-content.collapsed {
+    right: 46rem;
+}
+
+.hospital-cross {
+    width: 7rem;
+    height: 7rem;
+    background: rgba(255,255,255,0.12);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.hospital-cross svg {
+    width: 3.8rem;
+    height: 3.8rem;
+    fill: white;
+}
+
+.hospital-name {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+}
+
+.hospital-name span {
+    color: var(--accent-blue);
+}
+
+.countrie {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
+    width: 100%;
+}
+
+.gradient-line-left {
+    background: linear-gradient(to right, transparent 0%, white 40%);
+    height: 1px;
+    flex: 1;
+}
+
+.gradient-line-right {
+    background: linear-gradient(to left, transparent 0%, white 40%);
+    height: 1px;
+    flex: 1;
+}
+
+/* ECG line */
+.ecg-line {
+    opacity: 0.2;
+    width: 100%;
+}
+
+.banner-stats {
+    display: flex;
+    gap: 3rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#sign-up-button {
+    width: 334.8px;
+    height: 4.6rem;
+    border: 0;
+    margin-bottom: 0.45rem;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--sidebar-color);
+    transition: var(--tran-04);
+}
+#sign-up-button:hover {
+    opacity: 0.8;
+}
+
+@keyframes deslizarEntrada {
+    0%   { opacity: 0; transform: translateX(100px); }
+    60%  { opacity: 0.6; }
+    100% { opacity: 1; transform: translateX(0); }
+}
+/* Mensaje de error del login / registro */
+.login-error {
+    min-height: 1.8rem;
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #e5484d;
+    text-align: left;
+}
